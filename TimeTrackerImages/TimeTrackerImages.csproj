@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{71D0AA25-D397-4D38-B69C-B0B176D92EDD}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TimeTracker.Images</RootNamespace>
+    <AssemblyName>TimeTrackerImages</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\output\TimeTrackerImages\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\output\TimeTrackerImages\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Images.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Images.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Images.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\clock_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\date_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\date_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\delete_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\delete_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\details_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\details_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\doc_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\edit_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\edit_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\edit_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\menu_32_color.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\menu_32_white.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\pause_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\pause_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\play_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\play_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\settings_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\notification_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\notification_active_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\profile_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\profile_active_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\email_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\password_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\profile_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\update_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\add_task_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\app.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

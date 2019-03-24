@@ -1,0 +1,188 @@
+﻿<Controls:MetroWindow x:Class="TimeTracker.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:imgRes="clr-namespace:TimeTracker.Images;assembly=TimeTrackerImages"
+        xmlns:converters="clr-namespace:TimeTracker.Converters"
+        xmlns:locale="clr-namespace:TimeTracker.Locale;assembly=TimeTrackerLocalization"
+        xmlns:local="clr-namespace:TimeTracker"
+        mc:Ignorable="d"
+        MinHeight="750" MinWidth="1200"
+        MaxHeight="750" MaxWidth="1200"
+        Title="Time Tracker"
+        TextBlock.TextAlignment="Center"
+        NonActiveWindowTitleBrush="#f1f1f1"
+        WindowTitleBrush="#f1f1f1"
+        TitleForeground="Black"
+        GlowBrush="LightGray"
+        ShowMaxRestoreButton="False"
+        WindowCloseButtonStyle="{DynamicResource CloseWindowButtonStyle}"
+        WindowMinButtonStyle="{DynamicResource MinimizeWindowButtonStyle}"
+        WindowMaxButtonStyle="{DynamicResource MaximizeWindowButtonStyle}"
+        WindowStartupLocation="CenterScreen">
+    
+    <Controls:MetroWindow.Resources>
+        
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <converters:ImageResourceConverter x:Key="ImageResourceConverter" />
+        
+    </Controls:MetroWindow.Resources>
+
+    <Controls:MetroWindow.Visibility>
+        <Binding Path="IsViewVisible" Converter="{StaticResource BoolToVisibilityConverter}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"/>
+    </Controls:MetroWindow.Visibility>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <ToolBarPanel Grid.Row="0" DockPanel.Dock="Top" ClipToBounds="True">
+
+            <ToolBar ToolBarTray.IsLocked="True"
+                     BorderThickness="0"
+                     Margin="-5, 0,-5,0"
+                     Loaded="ToolBar_Loaded"
+                     Style="{StaticResource ToolbarStyle}"
+                     Height="50">
+
+                <DockPanel Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type ToolBarPanel}}}">
+                    <StackPanel Orientation="Horizontal">
+                        <ToggleButton Margin="17,0,9,0" Style="{StaticResource GlobalToolbarBtnStyle}">
+                            <Image Stretch="Fill" Width="32" Height="32" 
+                               Source="{Binding Source={x:Static imgRes:Images.menu_32_color}, Converter={StaticResource ImageResourceConverter} }"/>
+                            <ToggleButton.Triggers>
+                                <EventTrigger RoutedEvent="ToggleButton.Checked">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="lwPageChanger" 
+                                                             Storyboard.TargetProperty="Width"
+                                                             From="{Binding ElementName=lwPageChanger, Path=Width}"
+                                                             To="70"
+                                                             Duration="0:0:0.3"
+                                                             Completed="ListViewCollapsedAnimationEvent"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                                <EventTrigger RoutedEvent="ToggleButton.Unchecked">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="lwPageChanger" 
+                                                             Storyboard.TargetProperty="Width"
+                                                             From="{Binding ElementName=lwPageChanger, Path=Width}"
+                                                             To="200"
+                                                             Duration="0:0:0.3"
+                                                             Completed="ListViewRiseAnimationEvent"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </ToggleButton.Triggers>
+                        </ToggleButton>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft" Margin="0,0,10,0">
+                        <Controls:DropDownButton 
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Margin="0 -5 -5 -5"
+                                Width="50"
+                                BorderThickness="0"
+                                ArrowVisibility="Hidden"
+                                Background="#f8f8f8"
+                                ItemsSource="{Binding Path=ContextMenuCommands}">
+
+                            <Controls:DropDownButton.Icon>
+                                <Image Source ="{Binding Source={x:Static imgRes:Images.profile_32}, Converter={StaticResource ImageResourceConverter} }"
+                                               Stretch="Fill" Width="32" Height="32" ClipToBounds="False"/>
+                            </Controls:DropDownButton.Icon>
+
+                            <Controls:DropDownButton.ItemContainerStyle>
+                                <Style TargetType="MenuItem">
+                                    <Setter Property="Header" Value="{Binding Path=Title}"/>
+                                    <Setter Property="Command" Value="{Binding Path=Command}"/>
+                                </Style>
+                            </Controls:DropDownButton.ItemContainerStyle>
+
+                        </Controls:DropDownButton>
+
+                        <Controls:Badged Name="BadgeItem" Badge="{Binding NotificationsCount}" BadgePlacementMode="TopLeft" Margin="0 15 10 10" BadgeBackground="YellowGreen" BadgeForeground="White">
+                            <Button Style="{StaticResource GridBtnStyle}" Margin="0 -5 -5 -5" Width="32" Height="32" Command="{Binding ShowNotificationWindowCommand}">
+                                <StackPanel>
+                                    <Image Source ="{Binding Source={x:Static imgRes:Images.notification_32}, Converter={StaticResource ImageResourceConverter} }"
+                                               Stretch="Fill" Width="32" Height="32" ClipToBounds="False"/>
+                                </StackPanel>
+                            </Button>
+                        </Controls:Badged>
+                    </StackPanel>
+
+                </DockPanel>
+
+            </ToolBar>
+
+        </ToolBarPanel>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <ListView Name="lwPageChanger"
+                      Grid.Row="0"
+                      Width="200"
+                      Padding="-1,-1,-1,-1"
+                      ClipToBounds="True"
+                      Margin="-1,-1,0,-1"
+                      BorderBrush="DarkGray"
+                      BorderThickness ="0"
+                      Background="{StaticResource lwBrush}"
+                      SelectedIndex="0"
+                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                      ItemContainerStyle="{StaticResource lwElementStyle}">
+
+                    <ListViewItem>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{Binding Source={x:Static imgRes:Images.clock_32}, Converter={StaticResource ImageResourceConverter} }"
+                                   Stretch="Fill" Width="32" Height="32" />
+                            <Label Name="lwStateLabel" Content="Дела" Foreground="White"/>
+                        </StackPanel>
+                    </ListViewItem>
+                    <ListViewItem>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{Binding Source={x:Static imgRes:Images.doc_32}, Converter={StaticResource ImageResourceConverter} }" 
+                                   Stretch="Fill" Width="32" Height="32" />
+                            <Label Name="lwUpdatesLabel" Content="Отчеты" Foreground="White"/>
+                        </StackPanel>
+                    </ListViewItem>
+                    <ListViewItem>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{Binding Source={x:Static imgRes:Images.settings_32}, Converter={StaticResource ImageResourceConverter} }" 
+                                   Stretch="Fill" Width="32" Height="32" />
+                            <Label Name="lwSettingsLabel" Content="Настройки" Foreground="White"/>
+                        </StackPanel>
+                    </ListViewItem>
+                </ListView>
+
+            </Grid>
+
+            <Frame Name="NavigationFrame" 
+                   NavigationUIVisibility="Hidden"
+                   Grid.Column="1"
+                   ClipToBounds="True"
+                   Margin="0,-1,0,0"
+                   Width="Auto">
+            </Frame>
+        </Grid>
+    </Grid>
+
+</Controls:MetroWindow>

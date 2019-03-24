@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  
+  <?define TimeTrackerGuiTargetDir=$(var.TimeTrackerGui.TargetDir)?>
+  
+	<Product Id="*" Name="Time Tracker" Language="1033" Version="1.0.0.0" Manufacturer="Tracker Apps" UpgradeCode="ce153bcb-67bf-41a3-b8cd-5033ae40635a">
+		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+
+    <Icon Id="app.ico" SourceFile="$(var.ProjectDir)..\app.ico" />
+    <Property Id="ARPPRODUCTICON" Value="$(var.ProjectDir)..\app.ico" />
+
+    <WixVariable Id="WixUIBannerBmp" Value="images\installer_top-banner.bmp" />
+    <WixVariable Id="WixUIDialogBmp" Value="images\installer_background.bmp" />
+
+    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
+    <UIRef Id="WixUI_InstallDir" />
+
+    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+		<MediaTemplate EmbedCab="yes" />
+
+		<Feature Id="ProductFeature" Title="TimeTrackerInstaller" Level="1">
+			<ComponentGroupRef Id="ProductComponents" />
+      <ComponentRef Id="ApplicationShortcut" />
+      <ComponentRef Id="ApplicationShortcutDesktop" />
+      <ComponentRef Id="CreateLogsFolder"/>
+      <ComponentRef Id="CreateConfigsFolder"/>
+      <ComponentRef Id="CreateRegistryEntries"/>
+		</Feature>
+	</Product>
+
+  <Fragment>
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="INSTALLFOLDER" Name="TimeTracker" />
+      </Directory>
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ApplicationProgramsFolder" Name="TimeTracker" />
+      </Directory>
+      <Directory Id="DesktopFolder" Name="Desktop" />
+
+      <Directory Id="CommonAppDataFolder">
+        <Directory Id="TrackerAppDataFolder" Name="Time Tracker">
+          <Directory Id="TrackerAppLogsFolder" Name="Logs"/>
+          <Directory Id="TrackerAppConfigsFolder" Name="Configs"/>
+        </Directory>
+      </Directory>
+
+    </Directory>
+
+    <DirectoryRef Id="ApplicationProgramsFolder">
+      <Component Id="ApplicationShortcut" Guid="9bd13330-6540-406f-a3a8-d7f7c69ae7f9">
+        <Shortcut Id="ApplicationStartMenuShortcut" Name="TimeTracker" Description="TimeTracker" Target="[INSTALLFOLDER]TimeTracker.exe" WorkingDirectory="INSTALLFOLDER" />
+        <RemoveFolder Id="RemoveApplicationProgramsFolder" Directory="ApplicationProgramsFolder" On="uninstall" />
+        <RegistryValue Root="HKCU" Key="Software\Tracker Apps\Time Tracker" Name="installed" Type="integer" Value="1" KeyPath="yes" />
+      </Component>
+    </DirectoryRef>
+    
+    <DirectoryRef Id="DesktopFolder">
+      <Component Id="ApplicationShortcutDesktop" Guid="cde1e030-eb64-49a5-b7b8-400b379c2d1a">
+        <Shortcut Id="ApplicationDesktopShortcut" Name="TimeTracker" Description="TimeTracker" Target="[INSTALLFOLDER]TimeTracker.exe" WorkingDirectory="INSTALLFOLDER" />
+        <RemoveFolder Id="RemoveDesktopFolder" Directory="DesktopFolder" On="uninstall" />
+        <RegistryValue Root="HKCU" Key="Software\Tracker Apps\Time Tracker" Name="installed" Type="integer" Value="1" KeyPath="yes" />
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="TARGETDIR">
+      <Component Id="CreateRegistryEntries" Guid="54DA04C0-42E8-4D21-9776-80776828ACBA">
+        <RegistryKey Root="HKLM" Key="Software\Tracker Apps\Time Tracker" ForceCreateOnInstall="yes" ForceDeleteOnUninstall="yes">
+          <RegistryValue Type="string" Name="LogsDir" Value="$(env.ProgramData)\Time Tracker\Logs" KeyPath="yes"/>
+          <RegistryValue Type="string" Name="ConfigsDir" Value="$(env.ProgramData)\Time Tracker\Configs"/>
+        </RegistryKey>
+      </Component>
+    </DirectoryRef>
+
+    <Component Id="CreateLogsFolder" Directory="TrackerAppLogsFolder" Guid="866F8630-36EE-49AB-B15D-B2CABAC1CE59">
+      <CreateFolder />
+    </Component>
+
+    <Component Id="CreateConfigsFolder" Directory="TrackerAppConfigsFolder" Guid="BFCF2DC6-C00C-41A8-A59E-CD21D09FAF71">
+      <CreateFolder />
+    </Component>
+
+  </Fragment>
+
+	<Fragment>
+		<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+
+      <Component Id="TimeTracker.exe" Guid="F348A2BF-AE98-44D0-965A-B2336185E53A">
+        <File Id="TimeTracker.exe" Name="TimeTracker.exe" Source="$(var.TimeTrackerGuiTargetDir)TimeTracker.exe" />
+      </Component>
+      <Component Id="TimeTracker.exe.config" Guid="CE8C3D15-C3E2-4641-82DD-B46DD6D38DFB">
+        <File Id="TimeTracker.exe.config" Name="TimeTracker.exe.config" Source="$(var.TimeTrackerGuiTargetDir)TimeTracker.exe.config" />
+      </Component>
+      <Component Id="TimeTrackerModel.dll" Guid="EC21BF69-C28D-4875-A9E6-04F58E219BD8">
+        <File Id="TimeTrackerModel.dll" Name="TimeTrackerModel.dll" Source="$(var.TimeTrackerGuiTargetDir)TimeTrackerModel.dll" />
+      </Component>
+      <Component Id="TimeTrackerLocalization.dll" Guid="9C911ADD-80FA-4FF2-86EB-B0AA5AE00375">
+        <File Id="TimeTrackerLocalization.dll" Name="TimeTrackerLocalization.dll" Source="$(var.TimeTrackerGuiTargetDir)TimeTrackerLocalization.dll" />
+      </Component>
+      <Component Id="TimeTrackerImages.dll" Guid="FDA5640B-861A-4B5A-9648-125BE526CEA5">
+        <File Id="TimeTrackerImages.dll" Name="TimeTrackerImages.dll" Source="$(var.TimeTrackerGuiTargetDir)TimeTrackerImages.dll" />
+      </Component>
+      <Component Id="System.Windows.Interactivity.dll" Guid="FF98B335-D55D-4CB3-A892-F09C56965469">
+        <File Id="System.Windows.Interactivity.dll" Name="System.Windows.Interactivity.dll" Source="$(var.TimeTrackerGuiTargetDir)System.Windows.Interactivity.dll" />
+      </Component>
+      <Component Id="RestSharp.dll" Guid="7D76DD37-FBE0-4DF1-9464-092E0E1BC519">
+        <File Id="RestSharp.dll" Name="RestSharp.dll" Source="$(var.TimeTrackerGuiTargetDir)RestSharp.dll" />
+      </Component>
+      <Component Id="Newtonsoft.Json.dll" Guid="446EB702-0472-4A94-847D-0F8351684688">
+        <File Id="Newtonsoft.Json.dll" Name="Newtonsoft.Json.dll" Source="$(var.TimeTrackerGuiTargetDir)Newtonsoft.Json.dll" />
+      </Component>
+      <Component Id="MahApps.Metro.dll" Guid="69D585A2-BC89-4CF6-8698-0279314D99B7">
+        <File Id="MahApps.Metro.dll" Name="MahApps.Metro.dll" Source="$(var.TimeTrackerGuiTargetDir)MahApps.Metro.dll" />
+      </Component>
+      <Component Id="log4net.dll" Guid="E01CDECA-0255-4AB9-9605-A6105A2D95CC">
+        <File Id="log4net.dll" Name="log4net.dll" Source="$(var.TimeTrackerGuiTargetDir)log4net.dll" />
+      </Component>
+      <Component Id="ControlzEx.dll" Guid="CF3795E2-E146-47DD-ADEE-AC65D93C1C4A">
+        <File Id="ControlzEx.dll" Name="ControlzEx.dll" Source="$(var.TimeTrackerGuiTargetDir)ControlzEx.dll" />
+      </Component>
+
+    </ComponentGroup>
+	</Fragment>
+</Wix>

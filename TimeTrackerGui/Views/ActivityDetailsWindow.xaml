@@ -1,0 +1,133 @@
+﻿<Controls:MetroWindow x:Class="TimeTracker.Views.ActivityDetailsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:local="clr-namespace:TimeTracker.Views"
+        xmlns:converters="clr-namespace:TimeTracker.Converters"
+        xmlns:wpfTool ="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
+        mc:Ignorable="d"
+        Title="Детали"
+        TextBlock.TextAlignment="Center"
+        NonActiveWindowTitleBrush="#f1f1f1"
+        WindowTitleBrush="#f1f1f1"
+        TitleForeground="Black"
+        GlowBrush="LightGray"
+        ShowMaxRestoreButton="False"
+        ShowMinButton="False"
+        ShowInTaskbar="False"
+        WindowCloseButtonStyle="{DynamicResource CloseWindowButtonStyle}"
+        WindowStartupLocation="CenterScreen"
+        MinHeight="300" MinWidth="400" MaxHeight="300" MaxWidth="400">
+
+    <Controls:MetroWindow.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </Controls:MetroWindow.Resources>
+
+    <Window.Visibility>
+        <Binding Path="DetailsDialogEnabled" Converter="{StaticResource BoolToVisibilityConverter}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"/>
+    </Window.Visibility>
+
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" 
+                    Margin="0 20 0 0">
+            <StackPanel Orientation="Horizontal" >
+
+                <StackPanel Orientation="Vertical">
+                    <Label Content="Описание" Foreground="#3d5257" Height="25" Margin="0 0 0 5"/>
+                    <Label Content="Категория" Foreground="#3d5257" Height="25" Margin="0 0 0 5"/>
+                    <Label Content="Плановое начало" Foreground="#3d5257" Height="25" Margin="0 0 0 5"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical">
+                    <TextBox Width="250" Margin="0,0,0,5" 
+                             Height="25"
+                             Text="{Binding SelectedActivity.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             Style="{x:Null}"/>
+                    
+                    <ComboBox ItemsSource="{Binding Categories, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              SelectedValue="{Binding SelectedActivity.Category, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                              Margin="0,0,0,5"
+                              Height="25"
+                              Width="250"
+                              BorderBrush="#3d5257"
+                              SelectedIndex="0">
+
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding Path=., Mode=OneWay}"
+                                       Height="25"
+                                       Margin="0" 
+                                       VerticalAlignment="Center">
+                                </Label>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+
+                        <ComboBox.ItemContainerStyle>
+                            <Style TargetType="{x:Type ComboBoxItem}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type ComboBoxItem}">
+                                            <Border x:Name="Bd"
+                                                    SnapsToDevicePixels="True"
+                                                    Background="{TemplateBinding Background}"
+                                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                                    VerticalAlignment="Center"
+                                                    Padding="{TemplateBinding Padding}">
+                                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                                  Margin="0"
+                                                                  Height="25"
+                                                                  Content="{Binding Path=., Mode=OneWay}"
+                                                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsHighlighted" Value="True">
+                                                    <Setter Property="Background" Value="{StaticResource grid_row_hover_brush}" />
+                                                    <Setter Property="Foreground" Value="#3d5257" />
+                                                    <Setter Property="BorderBrush" Value="LightGray" />
+                                                    <Setter Property="Cursor" Value="Hand" />
+                                                </Trigger>
+                                                <Trigger Property="IsSelected" Value="True">
+                                                    <Setter Property="Background" Value="{StaticResource grid_row_selected_brush}" />
+                                                    <Setter Property="Foreground" Value="#3d5257" />
+                                                    <Setter Property="BorderBrush" Value="LightGray" />
+                                                    <Setter Property="Cursor" Value="Hand" />
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ComboBox.ItemContainerStyle>
+                    </ComboBox>
+
+                    <wpfTool:DateTimePicker Width="250" Margin="0,0,0,5"
+                                            Height="25"
+                                            UpdateValueOnEnterKey="True"
+                                            Value="{Binding SelectedActivity.PlannedBeginTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                            />
+                </StackPanel>
+
+            </StackPanel>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" FlowDirection="RightToLeft" Height="45" Background="LightGray"
+                    VerticalAlignment="Bottom">
+            <Button Content="Отмена" Margin="5,0,5,0" Width="110"
+                        Style="{StaticResource DefaultButtonStyle}"
+                        Command="{Binding CancelSaveActivityDetailsCommand}"/>
+            <Button Content="Сохранить" Margin="0,0,5,0" Width="110" 
+                        Style="{StaticResource DefaultButtonStyle}"
+                        Command="{Binding SaveActivityDetailsCommand}"/>
+        </StackPanel>
+
+    </Grid>
+</Controls:MetroWindow>

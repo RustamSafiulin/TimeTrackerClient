@@ -1,0 +1,85 @@
+﻿<Page x:Class="TimeTracker.Views.SettingsViewPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:TimeTracker"
+      xmlns:converters="clr-namespace:TimeTracker.Converters"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="SettingsViewPage">
+
+    <Page.Resources>
+        <converters:ModelsDirtyToVisibilityConverter x:Key="ModelsDirtyToVisibilityConverter" />
+    </Page.Resources>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        
+        <StackPanel Grid.Row="0" Orientation="Vertical">
+
+            <Label Content="Уведомления" Margin="10,0,0,5" FontWeight="DemiBold" FontSize="15"/>
+
+            <StackPanel>
+                    <CheckBox Content="Пора начинать" Margin="15,0,0,5" Style="{StaticResource SliderCheckBox}"
+                              Foreground="#3d5257"
+                              IsChecked="{Binding Path=NeedBeginNotify, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <CheckBox Content="Пора заканчивать" Margin="15,0,0,5" Style="{StaticResource SliderCheckBox}"
+                              Foreground="#3d5257"
+                              IsChecked="{Binding Path=NeedStopNotify, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <CheckBox Content="Звук" Margin="15,0,0,5" Style="{StaticResource SliderCheckBox}"
+                              Foreground="#3d5257"
+                              IsChecked="{Binding Path=EnableSoundNotify, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <CheckBox Content="Всплывающие уведомления" Margin="15,0,0,5" Style="{StaticResource SliderCheckBox}"
+                              Foreground="#3d5257"
+                              IsChecked="{Binding Path=EnablePopupNotify, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                </StackPanel>
+
+            <Label Content="Категории" Margin="10,15,0,5" FontWeight="DemiBold" FontSize="15"/>
+
+            <TextBox Text="{Binding CategoriesRawText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     Height="100"
+                     Width="400"
+                     Margin="15,0,0,0"
+                     TextWrapping="Wrap"
+                     AcceptsReturn="True"
+                     HorizontalAlignment="Left"
+                     HorizontalScrollBarVisibility="Disabled"
+                     VerticalScrollBarVisibility="Auto"/>
+
+            <Label Content="Формат ввода: категория1;категория2" FontSize="10" Margin="15,0,0,0"/>
+
+            <Label Content="Посещаемые сайты" Margin="10,15,0,5" FontWeight="DemiBold" FontSize="15"/>
+
+            <TextBox Text="{Binding SitesRawText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     Height="100"
+                     Width="400"
+                     Margin="15,0,0,0"
+                     TextWrapping="Wrap"
+                     AcceptsReturn="True"
+                     HorizontalAlignment="Left"
+                     HorizontalScrollBarVisibility="Disabled"
+                     VerticalScrollBarVisibility="Auto"/>
+
+            <Label Content="Формат ввода: сайт1;сайт2" FontSize="10" Margin="15,0,0,0"/>
+
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Background="LightGray" Height="45" VerticalAlignment="Bottom">
+            <Button Content="Сохранить" Width="120" Height="25" Style="{StaticResource AccentButtonStyle}" Margin="15,0,0,0"
+                    Command="{Binding SaveSettingsCommand}"/>
+            <Button Content="Отмена" Width="120" Height="25" Style="{StaticResource AccentButtonStyle}" Margin="15,0,0,0"
+                    Command="{Binding CancelSaveSettingsCommand}"/>
+            <Label  Content="Данные изменены" Margin="10,0,0,0" Height="23" Width="Auto" FontFamily="Segoe UI Semibold" Padding="21,2,21,3" >
+                <Label.Visibility>
+                    <MultiBinding Converter="{StaticResource ModelsDirtyToVisibilityConverter}">
+                        <Binding Path="IsDirty"/>
+                    </MultiBinding>
+                </Label.Visibility>
+            </Label>
+        </StackPanel>
+    </Grid>
+</Page>

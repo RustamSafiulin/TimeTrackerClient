@@ -1,0 +1,144 @@
+﻿<Page x:Class="TimeTracker.Views.TimersViewPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:imgRes="clr-namespace:TimeTracker.Images;assembly=TimeTrackerImages"
+      xmlns:converters="clr-namespace:TimeTracker.Converters"
+      xmlns:local="clr-namespace:TimeTracker.Views"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="TimersViewPage">
+
+    <Page.Resources>
+        <converters:ImageResourceConverter x:Key="ImageResourceConverter" />
+        <converters:ActivityStateToImageConverter x:Key="ActivityStateToImageConverter" />
+        <converters:ToFriendlyDateTimeConverter x:Key="ToFriendlyDateTimeConverter" />
+    </Page.Resources>
+
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Vertical">
+
+            <StackPanel Orientation="Horizontal">
+                <Border BorderBrush="LightGray"
+                                    BorderThickness="2"
+                                    VerticalAlignment="Center"
+                                    CornerRadius="2" 
+                                    Margin="15">
+
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBox Width="450" Height="40" Style="{StaticResource PlaceHolder}" Tag="Чем вы заняты?" 
+                                             Text="{Binding NewActivityDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    </StackPanel>
+                </Border>
+                <Button Command="{Binding AddActivityCommand}" Width="32" Height="32" Style="{StaticResource GridBtnStyle}">
+                    <StackPanel>
+                        <Image Source ="{Binding Source={x:Static imgRes:Images.add_task_32}, Converter={StaticResource ImageResourceConverter} }"
+                                               Stretch="Fill" Width="32" Height="32" ClipToBounds="False"/>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="15,0,0,5">
+                <Label Content="ВСЕГО:" Foreground="#3d5257" FontSize="20px" FontFamily="Segoe UI Semibold" Height="40"/>
+                <Label Foreground="#00acb1" Content="{Binding TotalDurationFriendly, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                       FontFamily="Segoe UI Semibold" FontSize="20px" Height="40"/>
+                <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" BorderBrush="LightGray" Height="30"/>
+                <Button Style="{StaticResource GridBtnStyle}" Width="16" Height="16" Command="{Binding GetActivitiesCommand}" Margin="5,0,0,0">
+                    <StackPanel>
+                        <Image Source ="{Binding Source={x:Static imgRes:Images.update_16}, Converter={StaticResource ImageResourceConverter} }"
+                                               Stretch="Fill" Width="16" Height="16" ClipToBounds="False" HorizontalAlignment="Stretch"/>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </StackPanel>
+
+        <DataGrid Grid.Row="1" 
+                  Style="{StaticResource dgStyle}"
+                  ColumnHeaderStyle="{StaticResource dgHeaderStyle}"
+                  RowStyle="{StaticResource dgRowStyle}"
+                  CellStyle="{StaticResource dgCellStyle}"
+                  Margin="0"
+                  HorizontalGridLinesBrush="{StaticResource grid_horizontal_lines_brush}"
+                  SelectionMode="Single"
+                  AutoGenerateColumns="False"
+                  VerticalScrollBarVisibility="Auto"
+                  HorizontalScrollBarVisibility="Visible"
+                  GridLinesVisibility="Horizontal"
+                  ItemsSource="{Binding Activities, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  SelectedItem="{Binding SelectedActivity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  CanUserAddRows="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    Width="120" 
+                                    Header="Задача" 
+                                    SortDirection="Descending"
+                                    CanUserSort="True"
+                                    IsReadOnly="True" />
+
+                <DataGridTextColumn Binding="{Binding Category, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    Width="120"
+                                    Header="Категория"
+                                    CanUserSort="False"
+                                    IsReadOnly="True"/>
+
+                <DataGridTextColumn Binding="{Binding PlannedBeginTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
+                                             Converter={StaticResource ToFriendlyDateTimeConverter}}"
+                                    Width="180"
+                                    Header="Плановое начало"
+                                    CanUserSort="False"
+                                    IsReadOnly="True"/>
+
+                <DataGridTextColumn Binding="{Binding DurationFriendly, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    Width="150" 
+                                    Header="Продолжительность" 
+                                    CanUserSort="False" 
+                                    IsReadOnly="True" />
+
+                <DataGridTemplateColumn CanUserSort="False" IsReadOnly="True" Header="Действия" Width="200">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                                <Button Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
+                                                         AncestorType={x:Type Page}},
+                                                         Path=DataContext.ActivityStartStopCommand}" Width="32" Height="32"
+                                        Style="{StaticResource GridBtnStyle}">
+                                    <StackPanel>
+                                        <Image Source ="{Binding State, Converter={StaticResource ActivityStateToImageConverter} }"
+                                               Stretch="Fill" Width="32" Height="32" ClipToBounds="False"/>
+                                    </StackPanel>
+                                </Button>
+                                <Button Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
+                                                         AncestorType={x:Type Page}},
+                                                         Path=DataContext.DeleteActivityCommand}" Width="32" Height="32"
+                                        Style="{StaticResource GridBtnStyle}">
+                                    <StackPanel>
+                                        <Image Source ="{Binding Source={x:Static imgRes:Images.delete_32}, Converter={StaticResource ImageResourceConverter} }"
+                                               Stretch="Fill" Width="32" Height="32" ClipToBounds="False"/>
+                                    </StackPanel>
+                                </Button>
+                                <Button Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
+                                                         AncestorType={x:Type Page}},
+                                                         Path=DataContext.ViewActivityDetailsCommand}" Width="32" Height="32"
+                                        Style="{StaticResource GridBtnStyle}">
+                                    <StackPanel>
+                                        <Image Source ="{Binding Source={x:Static imgRes:Images.details_32}, Converter={StaticResource ImageResourceConverter} }"
+                                               Stretch="Fill" Width="32" Height="32" ClipToBounds="False"/>
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
+            </DataGrid.Columns>
+        </DataGrid>
+
+    </Grid>
+</Page>

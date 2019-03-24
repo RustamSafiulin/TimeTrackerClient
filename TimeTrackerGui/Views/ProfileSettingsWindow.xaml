@@ -1,0 +1,99 @@
+﻿<Controls:MetroWindow x:Class="TimeTracker.Views.ProfileSettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:imgRes="clr-namespace:TimeTracker.Images;assembly=TimeTrackerImages"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:converters="clr-namespace:TimeTracker.Converters"
+        xmlns:local="clr-namespace:TimeTracker.Views"
+        mc:Ignorable="d"
+        Title="Профиль"
+        TextBlock.TextAlignment="Center"
+        WindowTitleBrush="White"
+        NonActiveWindowTitleBrush="White"
+        TitleForeground="Black"
+        GlowBrush="LightGray"
+        ShowMaxRestoreButton="False"
+        ShowMinButton="False"
+        ShowInTaskbar="False"
+        WindowCloseButtonStyle="{DynamicResource CloseWindowButtonStyle}"
+        WindowMinButtonStyle="{DynamicResource MinimizeWindowButtonStyle}"
+        WindowMaxButtonStyle="{DynamicResource MaximizeWindowButtonStyle}"
+        WindowStartupLocation="CenterScreen"
+        MinHeight="450" MinWidth="350" MaxHeight="450" MaxWidth="350">
+
+    <Controls:MetroWindow.Resources>
+
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <converters:ImageResourceConverter x:Key="ImageResourceConverter" />
+        <converters:BytesToImageConverter x:Key="BytesToImageConverter" />
+
+    </Controls:MetroWindow.Resources>
+
+    <Controls:MetroWindow.Visibility>
+        <Binding Path="IsViewVisible" Converter="{StaticResource BoolToVisibilityConverter}" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"/>
+    </Controls:MetroWindow.Visibility>
+
+    <StackPanel Orientation="Vertical">
+
+        <StackPanel Background="#f1f1f1" Height="150">
+            <Ellipse Width="90" Height="90" Stroke="LightGray">
+                <Ellipse.Fill>
+                    <ImageBrush ImageSource="{Binding Path=AvatarBytes, Mode=TwoWay, 
+                        UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BytesToImageConverter}}" />
+                </Ellipse.Fill>
+            </Ellipse>
+            <Button Content="Выбрать фото" Width="150" Margin="0,5,0,0" Style="{StaticResource AccentButtonStyle}" Command="{Binding ChangeAvatarCommand}"/>
+        </StackPanel>
+
+        <ListView BorderThickness="0" Margin="0,10,0,0" ItemContainerStyle="{StaticResource lwProfileElementStyle}">
+
+            <ListViewItem>
+                <DockPanel>
+                    <Image Source="{Binding Source={x:Static imgRes:Images.profile_24}, Converter={StaticResource ImageResourceConverter} }"
+                                   Stretch="Fill" Width="24" Height="24" Margin="10,0,10,0"/>
+                    <StackPanel Orientation="Vertical" Style="{x:Null}">
+                        <Label Content="{Binding Name}" Foreground="#3d5257" />
+                        <Label Content="Имя" Foreground="LightGray"/>
+                    </StackPanel>
+                    <Button HorizontalAlignment="Right" Style="{StaticResource GridBtnStyle}" Width="24" Height="24" Margin="10,0,10,0" 
+                            Command="{Binding ChangeNameCommand}">
+                        <Image Source="{Binding Source={x:Static imgRes:Images.edit_24}, Converter={StaticResource ImageResourceConverter} }"
+                                   Stretch="Fill" Width="24" Height="24" HorizontalAlignment="Stretch"/>
+                    </Button>
+                </DockPanel>
+            </ListViewItem>
+
+            <!--
+            <ListViewItem>
+                <DockPanel>
+                    <Image Source="{Binding Source={x:Static imgRes:Images.password_24}, Converter={StaticResource ImageResourceConverter} }"
+                                   Stretch="Fill" Width="24" Height="24" Margin="10,0,10,0"/>
+                    <StackPanel Orientation="Vertical" Style="{x:Null}">
+                        <Label Content="Пароль" Foreground="#3d5257" />
+                        <Label Content="Пароль" Foreground="LightGray"/>
+                    </StackPanel>
+                    <Button HorizontalAlignment="Right" Style="{StaticResource GridBtnStyle}" Width="24" Height="24" Margin="10,0,10,0"
+                            Command="{Binding ChangePasswordCommand}">
+                        <Image Source="{Binding Source={x:Static imgRes:Images.edit_24}, Converter={StaticResource ImageResourceConverter} }"
+                                   Stretch="Fill" Width="24" Height="24" HorizontalAlignment="Stretch"/>
+                    </Button>
+                </DockPanel>
+            </ListViewItem> -->
+
+            <ListViewItem>
+                <StackPanel Orientation="Horizontal" Style="{x:Null}">
+                    <Image Source="{Binding Source={x:Static imgRes:Images.email_24}, Converter={StaticResource ImageResourceConverter} }"
+                                   Stretch="Fill" Width="24" Height="24" Margin="10,0,10,0"/>
+                    <StackPanel Orientation="Vertical" Style="{x:Null}">
+                        <Label Content="{Binding Email}" Foreground="#3d5257" />
+                        <Label Content="Email" Foreground="LightGray"/>
+                    </StackPanel>
+                </StackPanel>
+            </ListViewItem>
+
+        </ListView>
+        
+    </StackPanel>
+</Controls:MetroWindow>
