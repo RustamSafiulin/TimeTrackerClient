@@ -101,6 +101,9 @@
       <Component Id="TimeTrackerImages.dll" Guid="FDA5640B-861A-4B5A-9648-125BE526CEA5">
         <File Id="TimeTrackerImages.dll" Name="TimeTrackerImages.dll" Source="$(var.TimeTrackerGuiTargetDir)TimeTrackerImages.dll" />
       </Component>
+      <Component Id="TimeTrackerNotifier.dll" Guid="6706E3BA-1803-4B99-974F-D84DCD15DB69">
+        <File Id="TimeTrackerNotifier.dll" Name="TimeTrackerNotifier.dll" Source="$(var.TimeTrackerGuiTargetDir)TimeTrackerNotifier.dll" />
+      </Component>
       <Component Id="System.Windows.Interactivity.dll" Guid="FF98B335-D55D-4CB3-A892-F09C56965469">
         <File Id="System.Windows.Interactivity.dll" Name="System.Windows.Interactivity.dll" Source="$(var.TimeTrackerGuiTargetDir)System.Windows.Interactivity.dll" />
       </Component>
@@ -119,7 +122,28 @@
       <Component Id="ControlzEx.dll" Guid="CF3795E2-E146-47DD-ADEE-AC65D93C1C4A">
         <File Id="ControlzEx.dll" Name="ControlzEx.dll" Source="$(var.TimeTrackerGuiTargetDir)ControlzEx.dll" />
       </Component>
-
+      <Component Id="Xceed.Wpf.AvalonDock.dll" Guid="F787C4E7-843C-4384-A27E-47A26C0E908F">
+        <File Id="Xceed.Wpf.AvalonDock.dll" Name="Xceed.Wpf.AvalonDock.dll" Source="$(var.TimeTrackerGuiTargetDir)Xceed.Wpf.AvalonDock.dll" />
+      </Component>
+      <Component Id="Xceed.Wpf.AvalonDock.Themes.Aero.dll" Guid="16B5E236-5879-4800-B4C1-40030C95A30C">
+        <File Id="Xceed.Wpf.AvalonDock.Themes.Aero.dll" Name="Xceed.Wpf.AvalonDock.Themes.Aero.dll" Source="$(var.TimeTrackerGuiTargetDir)Xceed.Wpf.AvalonDock.Themes.Aero.dll" />
+      </Component>
+      <Component Id="Xceed.Wpf.AvalonDock.Themes.Metro.dll" Guid="8EEBEE50-EF98-4EAE-8617-F4CAE15EA481">
+        <File Id="Xceed.Wpf.AvalonDock.Themes.Metro.dll" Name="Xceed.Wpf.AvalonDock.Themes.Metro.dll" Source="$(var.TimeTrackerGuiTargetDir)Xceed.Wpf.AvalonDock.Themes.Metro.dll" />
+      </Component>
+      <Component Id="Xceed.Wpf.AvalonDock.Themes.VS2010.dll" Guid="2F49BBA2-17F0-4414-B91C-6514C311D59D">
+        <File Id="Xceed.Wpf.AvalonDock.Themes.VS2010.dll" Name="Xceed.Wpf.AvalonDock.Themes.VS2010.dll" Source="$(var.TimeTrackerGuiTargetDir)Xceed.Wpf.AvalonDock.Themes.VS2010.dll" />
+      </Component>
+      <Component Id="Xceed.Wpf.Toolkit.dll" Guid="BDC433A8-EDC4-4078-BE05-59A55B3C6465">
+        <File Id="Xceed.Wpf.Toolkit.dll" Name="Xceed.Wpf.Toolkit.dll" Source="$(var.TimeTrackerGuiTargetDir)Xceed.Wpf.Toolkit.dll" />
+      </Component>
+      <Component Id="De.TorstenMandelkow.MetroChart.dll" Guid="81DEBB10-70CD-4289-9431-B4A4ED444317">
+        <File Id="De.TorstenMandelkow.MetroChart.dll" Name="De.TorstenMandelkow.MetroChart.dll" Source="$(var.TimeTrackerGuiTargetDir)De.TorstenMandelkow.MetroChart.dll" />
+      </Component>
+      <Component Id="ToastNotifications.dll" Guid="7A15AFD4-C134-496B-929F-CD3C1AC864D9">
+        <File Id="ToastNotifications.dll" Name="ToastNotifications.dll" Source="$(var.TimeTrackerGuiTargetDir)ToastNotifications.dll" />
+      </Component>
+      
     </ComponentGroup>
 	</Fragment>
 </Wix>
